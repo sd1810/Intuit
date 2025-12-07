@@ -8,27 +8,18 @@ public class Consumer implements Runnable {
     private final BlockingQueue<Integer> queue;
     private final List<Integer> destination;
     private final int consumerId;
-    private final StartSignal signal;
 
-    public Consumer(BlockingQueue<Integer> queue, List<Integer> destination, int id, StartSignal signal) {
+    public Consumer(BlockingQueue<Integer> queue, List<Integer> destination, int id) {
         this.queue = queue;
         this.destination = destination;
         this.consumerId = id;
-        this.signal = signal;
     }
 
     @Override
     public void run() {
         try {
-            // Consumers wait here until any producer produces ONE item
-            synchronized (signal.lock) {
-                while (!signal.firstItemProduced) {
-                    signal.lock.wait();
-                }
-            }
-
-            // Now consumers can start consuming normally
             while (true) {
+                // BlockingQueue.take() automatically blocks until data is available
                 int item = queue.take();
 
                 if (item == -1) {
@@ -41,6 +32,7 @@ public class Consumer implements Runnable {
                 }
 
                 System.out.println("Consumer " + consumerId + " consumed → " + item);
+                Thread.sleep(1500);
             }
 
         } catch (InterruptedException e) {

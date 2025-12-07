@@ -1,5 +1,4 @@
 import org.example.Producer;
-import org.example.StartSignal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -13,19 +12,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProducerTest {
 
     private BlockingQueue<Integer> queue;
-    private StartSignal signal;
 
     @BeforeEach
     void setUp() {
         queue = new ArrayBlockingQueue<>(100);
-        signal = new StartSignal();
     }
 
     @Test
     void testProducerProducesCorrectNumberOfItems() throws InterruptedException {
         int items = 5;
         int producerId = 1;
-        Producer producer = new Producer(queue, items, producerId, signal);
+        Producer producer = new Producer(queue, items, producerId);
 
         Thread producerThread = new Thread(producer);
         producerThread.start();
@@ -38,7 +35,7 @@ class ProducerTest {
     void testProducerGeneratesCorrectItemValues() throws InterruptedException {
         int items = 3;
         int producerId = 2;
-        Producer producer = new Producer(queue, items, producerId, signal);
+        Producer producer = new Producer(queue, items, producerId);
 
         Thread producerThread = new Thread(producer);
         producerThread.start();
@@ -51,24 +48,9 @@ class ProducerTest {
     }
 
     @Test
-    void testProducerSetsFirstItemProducedSignal() throws InterruptedException {
-        int items = 1;
-        int producerId = 1;
-        Producer producer = new Producer(queue, items, producerId, signal);
-
-        assertFalse(signal.firstItemProduced, "Signal should be false initially");
-
-        Thread producerThread = new Thread(producer);
-        producerThread.start();
-        producerThread.join();
-
-        assertTrue(signal.firstItemProduced, "Signal should be set to true after first item");
-    }
-
-    @Test
     void testMultipleProducersWithDifferentIds() throws InterruptedException {
-        Producer producer1 = new Producer(queue, 2, 1, signal);
-        Producer producer2 = new Producer(queue, 2, 2, signal);
+        Producer producer1 = new Producer(queue, 2, 1);
+        Producer producer2 = new Producer(queue, 2, 2);
 
         Thread thread1 = new Thread(producer1);
         Thread thread2 = new Thread(producer2);

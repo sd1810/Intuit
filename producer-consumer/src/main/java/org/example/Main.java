@@ -33,18 +33,16 @@ public class Main {
         BlockingQueue<Integer> sharedQueue = new ArrayBlockingQueue<>(50);
         List<Integer> destination = Collections.synchronizedList(new ArrayList<>());
 
-        StartSignal signal = new StartSignal();  // shared between all threads
-
         List<Thread> threads = new ArrayList<>();
 
         // Start producers
         for (int i = 1; i <= producerCount; i++) {
-            threads.add(new Thread(new Producer(sharedQueue, items, i, signal)));
+            threads.add(new Thread(new Producer(sharedQueue, items, i)));
         }
 
         // Start consumers
         for (int i = 1; i <= consumerCount; i++) {
-            threads.add(new Thread(new Consumer(sharedQueue, destination, i, signal)));
+            threads.add(new Thread(new Consumer(sharedQueue, destination, i)));
         }
 
         // Start all threads
