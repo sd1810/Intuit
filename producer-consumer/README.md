@@ -25,10 +25,6 @@ This project demonstrates a concurrent programming pattern where:
    - Retrieves items from the queue and adds them to a destination list
    - Exits when it receives a sentinel value (-1)
 
-3. **StartSignal** (`StartSignal.java`)
-   - Synchronization mechanism to coordinate producer and consumer threads
-   - Ensures consumers don't start consuming until at least one item exists
-
 4. **Main** (`Main.java`)
    - Orchestrates the producer-consumer system
    - Accepts user input for number of producers, consumers, and items per producer
@@ -115,9 +111,7 @@ FINAL DESTINATION LIST: [1001, 2001, 3001, 4001, 1002, 2002, 3002, 4002]
 2. **Thread Creation**: Producer and consumer threads are created and started
 3. **Producer Behavior**:
    - Produces items and adds them to the queue
-   - On the first item, signals all waiting consumers via `StartSignal`
 4. **Consumer Behavior**:
-   - Waits until `firstItemProduced` flag is set
    - Consumes items from the queue
    - Adds consumed items to the destination list
    - Exits when receiving sentinel value (-1)
@@ -154,7 +148,6 @@ Intuit/
 │   │               ├── Main.java           # Main application
 │   │               ├── Producer.java       # Producer implementation
 │   │               ├── Consumer.java       # Consumer implementation
-│   │               └── StartSignal.java    # Synchronization helper
 │   └── test/
 │       └── java/
 │           └── org/

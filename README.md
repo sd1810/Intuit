@@ -32,7 +32,6 @@ A Java implementation of the classic Producer-Consumer pattern using `BlockingQu
 #### Key Features
 
 - **Thread-safe communication** using `BlockingQueue`
-- **Synchronized coordination** between producers and consumers via `StartSignal`
 - **Graceful shutdown** using sentinel values
 - **Multiple producers and consumers** support
 - **Thread-safe destination list** using `Collections.synchronizedList()`
@@ -41,7 +40,6 @@ A Java implementation of the classic Producer-Consumer pattern using `BlockingQu
 
 - **Producer**: Generates items and places them in a shared queue
 - **Consumer**: Retrieves items from the queue and processes them
-- **StartSignal**: Ensures consumers wait until at least one item is produced
 - **Main**: Orchestrates the producer-consumer system with user input
 
 #### Running the Producer-Consumer Project
@@ -171,7 +169,6 @@ Intuit/
 │   │           ├── Main.java           # Main application
 │   │           ├── Producer.java       # Producer implementation
 │   │           ├── Consumer.java       # Consumer implementation
-│   │           └── StartSignal.java    # Synchronization helper
 │   └── test/
 │       └── java/
 │           └── org/example/
