@@ -21,6 +21,9 @@ public class Consumer implements Runnable {
             while (true) {
                 // BlockingQueue.take() automatically blocks until data is available
                 int item = queue.take();
+                synchronized (SyncLock.lock) {
+                    System.out.println("Consumer " + consumerId + " consumed → " + item);
+                }
 
                 if (item == -1) {
                     System.out.println("Consumer " + consumerId + " exiting...");
@@ -30,8 +33,6 @@ public class Consumer implements Runnable {
                 synchronized (destination) {
                     destination.add(item);
                 }
-
-                System.out.println("Consumer " + consumerId + " consumed → " + item);
                 Thread.sleep(1500);
             }
 

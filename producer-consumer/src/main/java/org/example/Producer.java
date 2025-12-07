@@ -19,8 +19,10 @@ public class Producer implements Runnable {
         try {
             for (int i = 1; i <= items; i++) {
                 int item = producerId * 1000 + i;
-                queue.put(item);
-                System.out.println("Producer " + producerId + " → produced: " + item);
+                synchronized (SyncLock.lock) {
+                    System.out.println("Producer " + producerId + " → produced: " + item);
+                    queue.put(item);
+                }
                 Thread.sleep(500);
             }
 
